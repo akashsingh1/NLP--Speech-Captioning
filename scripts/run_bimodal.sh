@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+CUDA_VISIBLE_DEVICES="1" python run_bimodal.py \
+        --dataset_name="timit_asr" \
+        --model_name_or_path="facebook/wav2vec2-base" \
+        --overwrite_output_dir \
+        --output_dir="./out" \
+        --train_split_name="train" \
+        --num_train_epochs="20" \
+        --per_device_train_batch_size="32" \
+        --per_device_eval_batch_size="1" \
+        --weight_decay="0.005" \
+        --learning_rate="1e-4" \
+        --warmup_steps="1000" \
+        --evaluation_strategy="steps" \
+        --text_column_name="text" \
+        --save_steps="400" \
+        --eval_steps="100" \
+        --logging_steps="10" \
+        --layerdrop="0.0" \
+        --save_total_limit="3" \
+        --freeze_feature_encoder \
+        --chars_to_ignore , ? . ! - \; \: \" “ % ‘ ” � \
+        --fp16 \
+        --group_by_length \
+        --do_train --do_eval --do_predict \
+        --load_best_model_at_end \
+        --metric_for_best_model="eval_wer" \
+        --greater_is_better="False"
